@@ -34,7 +34,7 @@ SRC_URI:append:mpfs-disco-kit = "file://${UBOOT_ENV}.cmd \
 
 DEPENDS += " python3-setuptools-native u-boot-mkenvimage-native"
 DEPENDS:append = " u-boot-tools-native hss-payload-generator-native"
-DEPENDS:append:icicle-kit-es-amp = " polarfire-soc-amp-examples"
+DEPENDS:append:icicle-kit-es-amp = " polarfire-soc-amp-examples mpfs-zephyr-amp-demo"
 
 do_deploy:append () {
 
@@ -42,8 +42,13 @@ do_deploy:append () {
     # for icicle-kit-es-amp, we'll already have an amp-application.elf in
     # DEPLOY_DIR_IMAGE, so smuggle it in here for the payload generator ...
     #
-    if [ -f "${DEPLOY_DIR_IMAGE}/amp-application.elf" ]; then
-        cp -f ${DEPLOY_DIR_IMAGE}/amp-application.elf ${DEPLOYDIR}
+    if [ ${HSS_PAYLOAD} == "amp" ]; then
+        if [ ${AMP_DEMO} == "zephyr" ]; then
+            cp ${DEPLOY_DIR_IMAGE}/zephyr-amp-application.elf ${DEPLOYDIR}/amp-application.elf
+        elif [ -f "${DEPLOY_DIR_IMAGE}/amp-application.elf" ]; then
+            cp -f ${DEPLOY_DIR_IMAGE}/amp-application.elf ${DEPLOYDIR}/amp-application.elf
+        fi
+        sed -i "s/\${AMP_DEMO}/${AMP_DEMO^}/g" ${WORKDIR}/${HSS_PAYLOAD}.yaml
     fi
 
     hss-payload-generator -c ${WORKDIR}/${HSS_PAYLOAD}.yaml -v ${DEPLOYDIR}/payload.bin
