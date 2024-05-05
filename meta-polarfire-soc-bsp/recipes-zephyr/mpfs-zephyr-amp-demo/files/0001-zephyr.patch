@@ -1,0 +1,16 @@
+diff --git a/soc/riscv/microchip_miv/polarfire/Kconfig.defconfig.series b/soc/riscv/microchip_miv/polarfire/Kconfig.defconfig.series
+index 53e88f1096..8132d6008e 100644
+--- a/soc/riscv/microchip_miv/polarfire/Kconfig.defconfig.series
++++ b/soc/riscv/microchip_miv/polarfire/Kconfig.defconfig.series
+@@ -24,9 +24,9 @@ config 2ND_LVL_INTR_00_OFFSET
+ 	default 11
+ 
+ config MAX_IRQ_PER_AGGREGATOR
+-	default 186
++	default 194
+ 
+ config NUM_IRQS
+-	default 186
++	default 194
+ 
+ endif # SOC_SERIES_POLARFIRE
